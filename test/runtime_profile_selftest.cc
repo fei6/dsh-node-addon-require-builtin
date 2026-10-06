@@ -45,6 +45,9 @@ void ExpectUnsupported(std::string_view label,
       std::string::npos) {
     Fail(label, "unexpected failure diagnostic");
   }
+  if (result.status().message().find("44.1.0") == std::string::npos) {
+    Fail(label, "supported versions diagnostic must include 44.1.0");
+  }
   std::cout << "ok   " << label << " rejected as expected\n";
 }
 
@@ -82,6 +85,12 @@ int main() {
       narb::EmbedderDataAbi::kTagged,
       0,
       "electron-44 tagged default=0");
+  ExpectProfile(
+      "Electron 44.1 native fingerprint",
+      {24, 19, 0, "15.2.124.18-electron.0"},
+      narb::EmbedderDataAbi::kTagged,
+      0,
+      "electron-44.1 tagged default=0");
   ExpectProfile(
       "Electron 45 native fingerprint",
       {24, 21, 0, "15.4.80-electron.0"},
